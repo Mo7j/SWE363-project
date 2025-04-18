@@ -4,6 +4,7 @@ const WebsiteSettings = () => {
     const [settings, setSettings] = useState({
         theme: 'light',
         notifications: true,
+        language: 'english',
     });
 
     const handleChange = (e) => {
@@ -46,6 +47,20 @@ const WebsiteSettings = () => {
                         onChange={handleChange}
                         style={{ marginLeft: '10px' }}
                     />
+                </label>
+            </div>
+            <div style={{ marginBottom: '15px' }}>
+                <label>
+                    Language:
+                    <select
+                        name="language"
+                        value={settings.language}
+                        onChange={handleChange}
+                        style={{ marginLeft: '10px' }}
+                    >
+                        <option value="english">English</option>
+                        <option value="arabic">Arabic</option>
+                    </select>
                 </label>
             </div>
             <button onClick={handleSave} style={{ padding: '10px 20px' }}>
