@@ -139,7 +139,7 @@ const SearchRequest = () => {
           <div className="modal">
             <div className="modal-header">
               <h2 className='modal-header-h2'>Roommate Details</h2>
-              <button onClick={closeModal} className="close-btn">X</button>
+              <button onClick={closeModal} className="colse-icon">X</button>
             </div>
             <div className="modal-body">
               <p className='modal-body-p'><strong>Name:</strong> {selectedRoommate.name}</p>
@@ -151,7 +151,7 @@ const SearchRequest = () => {
               <p className='modal-body-p'><strong>Details:</strong> {selectedRoommate.details}</p>
             </div>
             <div className="modal-footer">
-              <button onClick={closeModal} className="close-btn">Close</button>
+              <button onClick={closeModal} className="close-btn">Send Request</button>
             </div>
           </div>
         </div>

@@ -1,9 +1,11 @@
 
-
+  body {
+    background-color: #EFEFEF;
+  }
   /* General Container */
   .container {
       padding: 20px;
-      background-color: #f9fafb;
+      background-color: #EFEFEF;
     }
   
   /* Search Bar */
@@ -15,7 +17,7 @@
     width: 100%;
     padding: 10px;
     border-radius: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid #FFFFFF;
     font-size: 16px;
     box-sizing: border-box;
   }
@@ -30,7 +32,7 @@
   .select {
     padding: 10px;
     border-radius: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid #FFFFFF;
     width: 100%;
   }
   
@@ -51,7 +53,7 @@
   }
   
   .roommate-card {
-    background-color: white;
+    background-color: #FFFFFF;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -77,6 +79,10 @@
     margin-bottom: 15px;
     font-size: 14px;
   }
+
+  .roommate-details-p {
+    margin: 5px 0;
+  }
   
   .roommate-footer {
     display: flex;
@@ -85,12 +91,13 @@
   }
   
   .details-button {
-    background-color: #34d399;
+    background-color: #058A4A;
     color: white;
     padding: 10px 20px;
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    font-size: 15px;
   }
   
   .details-button:hover {
@@ -113,7 +120,7 @@
   
   /* Modal Window */
   .modal {
-    background: white;
+    background: #FFFFFF;
     padding: 15px;
     border-radius: 8px;
     width: 400px;
@@ -135,23 +142,24 @@
     margin: 0;
   }
   
-  
-  .close-btn {
-    background: none;
+  .colse-icon {
+    background-color: #058A4A;
+    color: white;
+    border-radius: 100px;
     border: none;
-    font-size: 20px;
     cursor: pointer;
-    font-weight: bold;
-    color: #888;
+    font-size: 15px;
+    width: 40px;
+    height: 40px;
   }
-  
+
   /* Modal Body */
   .modal-body {
     margin-bottom: 20px;
   }
   
   .modal-body-p {
-    margin: 10px 0px 10px 0px;
+    margin: 8px 0px;
   }
 
   /* Modal Footer */
@@ -161,12 +169,13 @@
   }
   
   .close-btn {
-    background-color: #34d399;
+    background-color: #058A4A;
     color: white;
     padding: 10px 20px;
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    font-size: 15px;
   }
   
   .close-btn:hover {
