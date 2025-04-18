@@ -1,4 +1,14 @@
+import { useNavigate } from 'react-router-dom';
+
 export default function Home() {
-    return <h1>Welcome to the Home Page</h1>;
-  }
+  const navigate = useNavigate();
+
+  return (
+    <div>
+      <h1>Welcome to the Home Page</h1>
+      <button onClick={() => navigate('/settings')}>Go to Profile Settings</button>
+      <button onClick={() => navigate('/website-settings')}>Go to Website Settings</button>
+    </div>
+  );
+}
   
