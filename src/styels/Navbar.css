@@ -1,0 +1,94 @@
+/* Navbar.css */
+
+body {
+    background-color: #EFEFEF;
+  }
+  
+  /* General Navbar Styling */
+  .navbar {
+    background-color: #058A4A;  /* Green background */
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;  /* Keep navbar on top of other content */
+    box-sizing: border-box;
+  }
+  
+  .navbar-list {
+    display: flex;
+    justify-content: center;
+    gap: 20px;  /* Spacing between navbar items */
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap;  /* Allow items to wrap to the next line on small screens */
+  }
+  
+  .navbar-link {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    display: block; /* Ensures links are block elements */
+  }
+  
+  .navbar-link:hover {
+    background-color: #2a9d8f;  /* Darker green on hover */
+  }
+  
+  /* For smaller screens, stack items vertically */
+  @media (max-width: 768px) {
+    .navbar-list {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px; /* Adjust space to make room for the fixed navbar */
+    }
+  
+    .navbar-link {
+      font-size: 14px;  /* Smaller font size on mobile */
+      padding: 8px 100px;  /* Adjust padding for better fit */
+    }
+  
+    /* Hamburger menu visible only on mobile */
+    .hamburger-menu {
+      display: block;
+      cursor: pointer;
+      font-size: 30px;
+      color: white;
+    }
+  
+    /* Hide the navbar items by default on mobile */
+    .navbar-list {
+      display: none;  /* Hide the navbar items initially */
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+  
+    /* Show the navbar items when the menu is open */
+    .navbar-list.active {
+      display: flex;
+    }
+  }
+  
+  /* Navbar Hover Effects */
+  .navbar-link:hover {
+    background-color: #2a9d8f;  /* Change background color on hover */
+  }
+  
+  /* Desktop: Hide the hamburger icon */
+  @media (min-width: 769px) {
+    .hamburger-menu {
+      display: none;  /* Hide hamburger icon on desktop */
+    }
+  }
+  
+  /* Ensuring the content doesn't get hidden under the navbar */
+  .content {
+    padding-top: 60px; /* Adjust based on navbar height */
+  }
+  
