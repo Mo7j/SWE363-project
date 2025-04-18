@@ -77,28 +77,11 @@
     margin-bottom: 15px;
     font-size: 14px;
   }
-
-  .roommate-details-p {
-    margin: 5px 0px 5px 0px;
-  }
   
   .roommate-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-  
-  .roommate-rating {
-    display: flex;
-  }
-  
-  .star {
-    color: #777;
-    font-size: 16px;
-  }
-  
-  .star.filled {
-    color: #ffcc00;
   }
   
   .details-button {
@@ -131,11 +114,12 @@
   /* Modal Window */
   .modal {
     background: white;
-    padding: 20px;
+    padding: 15px;
     border-radius: 8px;
     width: 400px;
     max-width: 90%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 10px;
   }
   
   /* Modal Header */
@@ -144,8 +128,13 @@
     justify-content: space-between;
     align-items: center;
     font-size: 18px;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
   }
+
+  .modal-header-h2 {
+    margin: 0;
+  }
+  
   
   .close-btn {
     background: none;
@@ -161,8 +150,14 @@
     margin-bottom: 20px;
   }
   
+  .modal-body-p {
+    margin: 10px 0px 10px 0px;
+  }
+
+  /* Modal Footer */
   .modal-footer {
     text-align: center;
+    margin-top: 20px;
   }
   
   .close-btn {

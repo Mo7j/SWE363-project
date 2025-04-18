@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import '../styels/SearchRequest.css'; 
 
+/* Dummy Data */
 const roommatesData = [
   {
     id: 1,
     name: "Rrof. Mohammed Hijazi",
+    email: "s202182750@kfupm.edu.sa",
     major: "ICS",
     age: 22,
     city: "Dhahran",
@@ -15,6 +17,7 @@ const roommatesData = [
   {
     id: 2,
     name: "Rrof. Ahmed Al-Sayed",
+    email: "s202282750@kfupm.edu.sa",
     major: "Engineering",
     age: 24,
     city: "Alkhobar",
@@ -25,6 +28,7 @@ const roommatesData = [
   {
     id: 3,
     name: "Rrof. Al-Mohammed",
+    email: "s202382750@kfupm.edu.sa",
     major: "ICS",
     age: 21,
     city: "Dhahran",
@@ -45,9 +49,10 @@ const SearchRequest = () => {
   const filteredRoommates = roommatesData.filter((roommate) => {
     return (
       (roommate.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        roommate.major.toLowerCase().includes(searchTerm.toLowerCase())) &&
+      roommate.major.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      roommate.email.toLowerCase().includes(searchTerm.toLowerCase())) &&
       (filterCity ? roommate.city === filterCity : true) &&
-      (filterMajor ? roommate.major === filterMajor : true) &&
+      (filterMajor ? roommate.email === filterMajor : true) &&
       (filterPreference ? roommate.smoking === filterPreference : true)
     );
   });
@@ -100,8 +105,8 @@ const SearchRequest = () => {
           onChange={(e) => setFilterPreference(e.target.value)}
         >
           <option value="">Select Preferences</option>
-          <option value="yes">Non-smoking</option>
-          <option value="no">Smoker</option>
+          <option value="no">Non-smoking</option>
+          <option value="yes">Smoker</option>
         </select>
       </div>
 
@@ -115,21 +120,11 @@ const SearchRequest = () => {
             </div>
             <div className="roommate-details">
               <p className="roommate-details-p">Major: {roommate.major}</p>
-              <p className="roommate-details-p">Age: {roommate.age}</p>
+              <p className="roommate-details-p">Email: {roommate.email}</p>
               <p className="roommate-details-p">City: {roommate.city}</p>
               <p className="roommate-details-p">Smoking: {roommate.smoking}</p>
             </div>
             <div className="roommate-footer">
-              <div className="roommate-rating">
-                {[...Array(5)].map((_, index) => (
-                  <span
-                    key={index}
-                    className={`star ${index < roommate.rating ? 'filled' : ''}`}
-                  >
-                    ★
-                  </span>
-                ))}
-              </div>
               <button className="details-button" onClick={() => openModal(roommate)}>
                 View Details
               </button>
@@ -143,16 +138,17 @@ const SearchRequest = () => {
         <div className="modal-overlay">
           <div className="modal">
             <div className="modal-header">
-              <h2>Roommate Details</h2>
+              <h2 className='modal-header-h2'>Roommate Details</h2>
               <button onClick={closeModal} className="close-btn">X</button>
             </div>
             <div className="modal-body">
-              <p><strong>Name:</strong> {selectedRoommate.name}</p>
-              <p><strong>Major:</strong> {selectedRoommate.major}</p>
-              <p><strong>Age:</strong> {selectedRoommate.age}</p>
-              <p><strong>City:</strong> {selectedRoommate.city}</p>
-              <p><strong>Smoking:</strong> {selectedRoommate.smoking}</p>
-              <p><strong>Details:</strong> {selectedRoommate.details}</p>
+              <p className='modal-body-p'><strong>Name:</strong> {selectedRoommate.name}</p>
+              <p className='modal-body-p'><strong>Email:</strong> {selectedRoommate.email}</p>
+              <p className='modal-body-p'><strong>Major:</strong> {selectedRoommate.major}</p>
+              <p className='modal-body-p'><strong>Age:</strong> {selectedRoommate.age}</p>
+              <p className='modal-body-p'><strong>City:</strong> {selectedRoommate.city}</p>
+              <p className='modal-body-p'><strong>Smoking:</strong> {selectedRoommate.smoking}</p>
+              <p className='modal-body-p'><strong>Details:</strong> {selectedRoommate.details}</p>
             </div>
             <div className="modal-footer">
               <button onClick={closeModal} className="close-btn">Close</button>
