@@ -8,6 +8,7 @@ body {
   .container {
     padding: 20px;
     background-color: #EFEFEF;
+    margin-top: 60px; 
   }
   
   /* Section Styling */

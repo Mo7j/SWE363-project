@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import "../styels/ChattingPage.css"; 
+import "../styels/chattingPage.css"; 
 
 const ChattingPage = () => {
   const [input, setInput] = useState("");
