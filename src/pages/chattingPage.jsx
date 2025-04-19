@@ -10,7 +10,7 @@ const initialUsers = [
 ];
 
 function ChattingPage() {
-    const [users] = useState(initialUsers);
+  const [users] = useState(initialUsers);
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState({});
   const [input, setInput] = useState('');
@@ -64,12 +64,14 @@ function ChattingPage() {
 
   const updateSettings = (e) => {
     e.preventDefault();
-    const name = e.target.name.value;
-    const avatar = e.target.avatar.value;
-    const bio = e.target.bio.value;
+    const name = e.target.name.value.trim();
+    const avatar = e.target.avatar.value.trim();
+    const bio = e.target.bio.value.trim();
 
-    setCurrentUser({ name, avatar, bio });
-    setSettingsOpen(false);
+    if (name && avatar) {
+      setCurrentUser({ name, avatar, bio });
+      setSettingsOpen(false);
+    }
   };
 
   return (
@@ -142,13 +144,30 @@ function ChattingPage() {
       {settingsOpen && (
         <div className="settings-overlay">
           <form className="settings-modal" onSubmit={updateSettings}>
-            <h3>Settings</h3>
-            <input name="name" defaultValue={currentUser.name} placeholder="Name" required />
-            <input name="avatar" defaultValue={currentUser.avatar} placeholder="Avatar emoji" required />
-            <textarea name="bio" defaultValue={currentUser.bio} placeholder="Bio" rows="3" />
+            <h3>User Settings</h3>
+            <input
+              name="name"
+              defaultValue={currentUser.name}
+              placeholder="Your Name"
+              required
+            />
+            <input
+              name="avatar"
+              defaultValue={currentUser.avatar}
+              placeholder="Avatar (emoji)"
+              required
+            />
+            <textarea
+              name="bio"
+              defaultValue={currentUser.bio}
+              placeholder="Your Bio"
+              rows="3"
+            />
             <div className="settings-actions">
               <button type="submit">Save</button>
-              <button type="button" onClick={() => setSettingsOpen(false)}>Cancel</button>
+              <button type="button" onClick={() => setSettingsOpen(false)}>
+                Cancel
+              </button>
             </div>
           </form>
         </div>
