@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import '../styels/websiteSettings.css';
 const WebsiteSettings = () => {
     const [settings, setSettings] = useState({
         theme: 'light',
@@ -21,7 +21,7 @@ const WebsiteSettings = () => {
     };
 
     return (
-        <div style={{ padding: '20px' }}>
+        <div className='website-settings-page'>
             <h1>Website Settings</h1>
             <div style={{ marginBottom: '15px' }}>
                 <label>
