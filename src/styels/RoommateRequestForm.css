@@ -64,4 +64,9 @@
       font-size: 0.95rem;
     }
   }
+  .container {
+    padding: 20px;
+    background-color: #EFEFEF;
+    margin-top: 60px; 
+  }
   

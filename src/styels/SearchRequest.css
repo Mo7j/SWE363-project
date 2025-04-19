@@ -4,9 +4,10 @@
   }
   /* General Container */
   .container {
-      padding: 20px;
-      background-color: #EFEFEF;
-    }
+    padding: 20px;
+    background-color: #EFEFEF;
+    margin-top: 60px; 
+  }
   
   /* Search Bar */
   .search-bar {
