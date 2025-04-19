@@ -19,7 +19,7 @@ const Login = ({ setIsAuthenticated }) => {
 
     
     localStorage.setItem('isAuthenticated', 'true');
-    navigate('/home');
+    navigate('/search-request');
   };
 
   return (

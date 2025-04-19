@@ -34,11 +34,6 @@ const Navbar = () => {
         className={`navbar-list ${isMenuOpen ? 'active' : ''}`}
       >
         <li>
-          <Link to="/home" className="navbar-link" onClick={() => setIsMenuOpen(false)}>
-            Home
-          </Link>
-        </li>
-        <li>
           <Link to="/search-request" className="navbar-link" onClick={() => setIsMenuOpen(false)}>
             Find roommate
           </Link>

@@ -1,19 +1,19 @@
 /* RoleSelection.css */
 
 .role-selection {
-    min-height: 100vh;
+    min-height: 70vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to right, #3b82f6, #cfe8ff);
+    background-color: #EFEFEF;
     padding: 20px;
   }
   
   h1 {
     font-size: 36px;
     font-weight: bold;
-    color: white;
+    color: black;
     text-align: center;
     margin-bottom: 10px;
   }
