@@ -5,7 +5,7 @@ const ChattingPage = () => {
   const [input, setInput] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState({});
-  const [searchTerm, setSearchTerm] = useState(""); // <- NEW
+  const [searchTerm, setSearchTerm] = useState("");
   const chatBoxRef = useRef(null);
 
   const users = [

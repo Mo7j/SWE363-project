@@ -1,31 +1,25 @@
-/* chattingPage.css */
-
-/* Ensure the body and html take up the full height */
 body, html {
     height: 100%;
     margin: 0;
     font-family: 'Roboto', sans-serif;
   }
   
-  /* Full screen container */
   .chat-container {
     display: flex;
-    height: 100vh; /* Use viewport height to fill screen */
+    height: 100vh;
     flex-direction: row;
     overflow: hidden;
   }
   
-  /* User list on the left */
   .user-list {
     width: 30%;
     background-color: #f1f1f1;
     padding: 20px;
     border-right: 2px solid #d1d8e0;
     overflow-y: auto;
-    height: 100vh; /* Full height */
+    height: 100vh;
   }
   
-  /* Users section */
   .users {
     margin-top: 20px;
   }
@@ -63,18 +57,16 @@ body, html {
     margin-right: 15px;
   }
   
-  /* Chat area on the right */
   .chat-area {
     width: 70%;
     display: flex;
     flex-direction: column;
     padding: 20px;
-    height: 100vh; /* Full height */
+    height: 100vh;
     overflow: hidden;
     background-color: #fff;
   }
   
-  /* Header for the chat */
   .chat-header {
     display: flex;
     justify-content: space-between;
@@ -102,7 +94,6 @@ body, html {
     background-color: #0056b3;
   }
   
-  /* Box where the chat messages appear */
   .chat-box {
     flex-grow: 1;
     overflow-y: auto;
@@ -111,10 +102,9 @@ body, html {
     border-radius: 10px;
     border: 1px solid #e1e4e8;
     margin-bottom: 20px;
-    max-height: calc(100% - 160px); /* Keeps chat box within screen */
+    max-height: calc(100% - 160px);
   }
   
-  /* Message styling */
   .chat-message {
     margin-bottom: 15px;
     padding: 10px;
@@ -168,8 +158,6 @@ body, html {
     box-sizing: border-box;
   }
   
-  
-  /* Input area */
 .chat-input {
     display: flex;
     gap: 15px;
@@ -184,9 +172,9 @@ body, html {
     font-size: 16px;
     border-radius: 8px;
     border: 1px solid #ccc;
-    border-bottom: 2px solid #007bff; /* Added bottom border */
+    border-bottom: 2px solid #007bff;
     background-color: #f7f7f7;
-    margin-bottom: 8px; /* Adjusted margin to make the bottom border more visible */
+    margin-bottom: 8px;
   }
   
   .chat-input button {
