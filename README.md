@@ -44,6 +44,7 @@ Install dependencies
 6. **Start using the platform**
    - Visit: [http://localhost:3000](http://localhost:3000)
    - Register as a student and start browsing available roommate requests.
+   - Sign in as an admin or student
 
 
 ## 👥 Team Members & Roles
