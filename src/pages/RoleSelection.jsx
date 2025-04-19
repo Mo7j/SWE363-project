@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './RoleSelection.css';
-
+import '../styels/RoleSelection.css'; // Adjust the path as necessary
 const RoleSelection = () => {
   const navigate = useNavigate();
 

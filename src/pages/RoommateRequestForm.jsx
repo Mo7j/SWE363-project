@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import "./RoommateRequestForm.css";
+import '../styels/RoommateRequestForm.css'
+
 
 function RoommateRequestForm() {
   const [formData, setFormData] = useState({

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './AdminPage.css';
+import '../styels/AdminPage.css';
 
 const AdminPage = () => {
   const [students, setStudents] = useState([]);

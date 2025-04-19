@@ -1,7 +1,7 @@
 // src/pages/Signup.jsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './Signup.css';
+import '../styels/Signup.css'
 
 const Signup = ({ setIsAuthenticated }) => {
   const [name, setName] = useState('');
