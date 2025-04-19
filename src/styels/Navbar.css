@@ -1,0 +1,96 @@
+/* Navbar.css */
+
+body {
+    background-color: #EFEFEF;
+  }
+  
+  /* General Navbar Styling */
+  .navbar {
+    background-color: #058A4A; 
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; 
+    box-sizing: border-box;
+    border-radius: 0px 0px 10px 10px;
+  }
+  
+  .navbar-list {
+    display: flex;
+    justify-content: center;
+    gap: 20px;  
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap;  
+  }
+  
+  .navbar-link {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 17px;
+    display: block;
+    font-weight: bold; 
+  }
+  
+  .navbar-link:hover {
+    background-color: #2a9d8f;  
+  }
+  
+  /* For smaller screens, stack items vertically */
+  @media (max-width: 968px) {
+    .navbar-list {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+  
+    .navbar-link {
+      font-size: 14px;  
+      padding: 8px 100px; 
+    }
+  
+    /* Hamburger menu visible only on mobile */
+    .hamburger-menu {
+      display: block;
+      cursor: pointer;
+      font-size: 30px;
+      color: white;
+    }
+  
+    /* Hide the navbar items by default on mobile */
+    .navbar-list {
+      display: none;  
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+  
+    /* Show the navbar items when the menu is open */
+    .navbar-list.active {
+      display: flex;
+    }
+  }
+  
+  /* Navbar Hover Effects */
+  .navbar-link:hover {
+    background-color: #2a9d8f;  
+  }
+  
+  /* Desktop: Hide the hamburger icon */
+  @media (min-width: 969px) {
+    .hamburger-menu {
+      display: none; 
+    }
+  }
+  
+  /* Ensuring the content doesn't get hidden under the navbar */
+  .content {
+    padding-top: 60px; 
+  }
+  

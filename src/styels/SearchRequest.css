@@ -1,0 +1,184 @@
+
+  body {
+    background-color: #EFEFEF;
+  }
+  /* General Container */
+  .container {
+      padding: 20px;
+      background-color: #EFEFEF;
+    }
+  
+  /* Search Bar */
+  .search-bar {
+    margin-bottom: 10px;
+  }
+
+  .input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #FFFFFF;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  
+  /* Filters */
+  .filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #FFFFFF;
+    width: 100%;
+  }
+  
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+  }
+  
+  .checkbox {
+    margin-right: 10px;
+  }
+  
+  /* Roommate List */
+  .roommate-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .roommate-card {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .roommate-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .roommate-info {
+    font-size: 14px;
+  }
+  
+  .roommate-name {
+    font-weight: bold;
+    font-size: 18px;
+    margin: auto;
+  }
+  
+  .roommate-details {
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+
+  .roommate-details-p {
+    margin: 5px 0;
+  }
+  
+  .roommate-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .details-button {
+    background-color: #058A4A;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+  }
+  
+  .details-button:hover {
+    background-color: #2a9d8f;
+  }
+  
+  /* Modal Overlay */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure the modal appears above everything else */
+  }
+  
+  /* Modal Window */
+  .modal {
+    background: #FFFFFF;
+    padding: 15px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 10px;
+  }
+  
+  /* Modal Header */
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    margin-bottom: 25px;
+  }
+
+  .modal-header-h2 {
+    margin: 0;
+  }
+  
+  .colse-icon {
+    background-color: #058A4A;
+    color: white;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Modal Body */
+  .modal-body {
+    margin-bottom: 20px;
+  }
+  
+  .modal-body-p {
+    margin: 8px 0px;
+  }
+
+  /* Modal Footer */
+  .modal-footer {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .close-btn {
+    background-color: #058A4A;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+  }
+  
+  .close-btn:hover {
+    background-color: #2a9d8f;
+  }
+  
