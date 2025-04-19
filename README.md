@@ -52,7 +52,7 @@ Install dependencies
 - **ALGHAMDI, TURKI ABDULLAH** — Developed the Chatting Page
 - **MOHAMMED FAHAD ALAJMI** — Implemented Website Settings and Profile Settings Page
 - **ABDULRAHMAN AHMED ALTARIQI** — Built the Roommate Request Form and University Redirect Page
-- **MOHAMED NASER HEJAZI** — Created the Search Request, Homepage, My Requests, and Not Found pages, and modified errors in the main repository
+- **MOHAMED NASER HEJAZI** — Created the Search Request, My Requests, and Not Found pages, and modified errors in the main repository
 
                                         
 
