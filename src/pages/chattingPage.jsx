@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import "./chattingPage.css";
+import '../styles/chattingPage.css';
 
 const defaultUsers = [
   { name: "John", avatar: "👨‍💼", bio: "Software Engineer" },
