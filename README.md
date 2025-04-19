@@ -23,11 +23,11 @@ Install dependencies
    ```bash
    git clone https://github.com/Mo7j/SWE363-project.git
 ### Usage instructions and examples.
-Sign up or log in as a user you can use any email and password 
-Sign in as Admin with ID 'thamer' and password 'thamer'
-Browse roommate requests
-Send and receive requests
-chatting with the student that you want to join him 
+-Sign up or log in as a user you can use any email and password 
+-Sign in as Admin with ID 'thamer' and password 'thamer'
+-Browse roommate requests
+-Send and receive requests
+-chatting with the student that you want to join him 
 Go to http://localhost:3000, register as a student, and start browsing available roommate requests.
 ###  Team Members 
 👥 Team Members & Roles
