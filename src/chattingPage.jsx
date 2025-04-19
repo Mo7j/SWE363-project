@@ -1,143 +1,167 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./chattingPage.css";
 
+const formatTime = (date) => {
+  const d = new Date(date);
+  return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+};
+
 const ChattingPage = () => {
-  const [input, setInput] = useState("");
+  const [users, setUsers] = useState([
+    { name: "John", avatar: "👨", bio: "Frontend Dev" },
+    { name: "Jane", avatar: "👩", bio: "UI/UX Designer" },
+    { name: "Alice", avatar: "🧑", bio: "Backend Engineer" },
+  ]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState({});
-  const [searchTerm, setSearchTerm] = useState("");
-  const chatBoxRef = useRef(null);
+  const [newMessage, setNewMessage] = useState("");
+  const [search, setSearch] = useState("");
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState({
+    name: "You",
+    avatar: "🙂",
+    bio: "Just chilling",
+  });
 
-  const users = [
-    { id: 1, name: "John Doe", avatar: "JD" },
-    { id: 2, name: "Jane Smith", avatar: "JS" },
-    { id: 3, name: "Mike Johnson", avatar: "MJ" },
-    { id: 4, name: "Ali Hassan", avatar: "AH" },
-    { id: 5, name: "Sara Khan", avatar: "SK" },
-  ];
-
-  const filteredUsers = users.filter((user) =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const chatRef = useRef(null);
 
   const handleSend = () => {
-    if (input.trim() !== "" && selectedUser !== null) {
-      const newMessage = {
-        user: selectedUser.name,
-        text: input,
-        time: formatTime(),
+    if (newMessage.trim() && selectedUser) {
+      const newMsg = {
+        sender: currentUser.name,
+        text: newMessage.trim(),
+        time: new Date(),
       };
-
-      setMessages((prevMessages) => ({
-        ...prevMessages,
-        [selectedUser.id]: [
-          ...(prevMessages[selectedUser.id] || []),
-          newMessage,
-        ],
+      setMessages((prev) => ({
+        ...prev,
+        [selectedUser]: [...(prev[selectedUser] || []), newMsg],
       }));
-
-      setInput("");
+      setNewMessage("");
     }
-  };
-
-  const formatTime = () => {
-    const date = new Date();
-    return `${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
-  };
-
-  const handleUserSelect = (user) => {
-    setSelectedUser(user);
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSend();
-    }
-  };
-
-  const handleNewChat = () => {
-    setSelectedUser(null);
-    setMessages({});
+    if (e.key === "Enter") handleSend();
   };
 
   useEffect(() => {
-    if (chatBoxRef.current) {
-      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
     }
   }, [messages, selectedUser]);
 
+  const filteredUsers = users.filter((u) =>
+    u.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <div className="chat-container">
-      <div className="user-list">
-        <div className="chat-header">
-          <h2>Users</h2>
-          <input
-            type="text"
-            className="search-box"
-            placeholder="Search user..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+    <div className="chat-page">
+      <div className="sidebar">
+        <div className="settings-header">
+          <div className="current-user">
+            <span className="avatar">{currentUser.avatar}</span>
+            <strong>{currentUser.name}</strong>
+          </div>
+          <button className="settings-btn" onClick={() => setSettingsOpen(true)}>
+            ⚙️
+          </button>
         </div>
-        <div className="users">
-          {filteredUsers.length > 0 ? (
-            filteredUsers.map((user) => (
-              <div
-                key={user.id}
-                className={`user-item ${selectedUser?.id === user.id ? "selected" : ""}`}
-                onClick={() => handleUserSelect(user)}
-              >
-                <div className="user-avatar">{user.avatar}</div>
+        <input
+          className="search-bar"
+          placeholder="Search users..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <div className="user-list">
+          {filteredUsers.map((user) => (
+            <div
+              key={user.name}
+              className={`user ${selectedUser === user.name ? "active" : ""}`}
+              onClick={() => setSelectedUser(user.name)}
+            >
+              <span className="avatar">{user.avatar}</span>
+              <div>
                 <div>{user.name}</div>
+                <div className="bio">{user.bio}</div>
               </div>
-            ))
-          ) : (
-            <div className="no-results">No users found</div>
-          )}
+            </div>
+          ))}
         </div>
       </div>
 
-      <div className="chat-area">
+      <div className="chat-container">
         {selectedUser ? (
           <>
             <div className="chat-header">
-              <h2>Chat with {selectedUser.name}</h2>
-              <button className="chat-header-btn" onClick={handleNewChat}>
-                New Chat
-              </button>
+              <span className="avatar">
+                {users.find((u) => u.name === selectedUser)?.avatar}
+              </span>
+              <strong>{selectedUser}</strong>
             </div>
-
-            <div className="chat-box" ref={chatBoxRef}>
-              {messages[selectedUser.id]?.map((msg, idx) => (
-                <div key={idx} className="chat-message">
-                  <div className="message-avatar">{selectedUser.avatar}</div>
-                  <div className="message-content">
-                    <div className="message-text">{msg.text}</div>
-                    <div className="message-time">{msg.time}</div>
+            <div className="chat-messages" ref={chatRef}>
+              {messages[selectedUser]?.map((msg, index) => (
+                <div
+                  key={index}
+                  className={`message ${msg.sender === currentUser.name ? "sent" : "received"}`}
+                >
+                  <div className="bubble">
+                    {msg.text}
+                    <div className="msg-header">
+                      <span>{formatTime(msg.time)}</span>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
-
             <div className="chat-input">
               <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyPress}
                 placeholder="Type a message..."
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                onKeyPress={handleKeyPress}
               />
-              <button className="send-btn" onClick={handleSend}>Send</button>
+              <button onClick={handleSend}>Send</button>
             </div>
           </>
         ) : (
-          <div className="no-chat">
-            <h3>Select a user to start chatting</h3>
-          </div>
+          <div className="no-user">Select a user to start chatting</div>
         )}
       </div>
+
+      {settingsOpen && (
+        <div className="settings-overlay">
+          <div className="settings-modal">
+            <h3>Update Profile</h3>
+            <input
+              value={currentUser.name}
+              onChange={(e) =>
+                setCurrentUser((prev) => ({ ...prev, name: e.target.value }))
+              }
+              placeholder="Your name"
+            />
+            <input
+              value={currentUser.avatar}
+              onChange={(e) =>
+                setCurrentUser((prev) => ({ ...prev, avatar: e.target.value }))
+              }
+              placeholder="Avatar (emoji)"
+            />
+            <textarea
+              value={currentUser.bio}
+              onChange={(e) =>
+                setCurrentUser((prev) => ({ ...prev, bio: e.target.value }))
+              }
+              placeholder="Bio"
+            />
+            <div className="settings-actions">
+              <button onClick={() => setSettingsOpen(false)}>Save</button>
+              <button onClick={() => setSettingsOpen(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
-/*test */
+
 export default ChattingPage;
