@@ -1,11 +1,11 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import RoleSelection from "./pages/RoleSelection";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import AdminLogin from "./pages/AdminLogin";
-import AdminPage from "./pages/AdminLogin";
+import AdminPage from "./pages/AdminPage";
 import Navbar from "./components/Navbar";
 import NotFound from "./pages/NotFound";
 import RoommateRequestForm from "./pages/RoommateRequestForm";
@@ -15,12 +15,20 @@ import WebsiteSettings from "./pages/WebsiteSettings";
 
 import SearchReuset from "./pages/SearchReuset";
 
-
+function ConditionalNavbar() {
+  const location = useLocation(); // Get the current location/path
+  return location.pathname === "/home" ||
+  location.pathname === "/search-request" ||
+  location.pathname === "/my-requests" ||
+  location.pathname === "/settings" ||
+  location.pathname === "/website-settings" ||
+  location.pathname === "/add-request" ? <Navbar /> : null; // Only render Navbar on the Home page
+}
 
 function App() {
   return (
     <Router>
-      <Navbar />
+      <ConditionalNavbar />
       <div className="content">
       <Routes>
         <Route path="/" element={<RoleSelection />} />

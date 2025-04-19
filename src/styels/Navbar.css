@@ -89,8 +89,5 @@ body {
     }
   }
   
-  /* Ensuring the content doesn't get hidden under the navbar */
-  .content {
-    padding-top: 60px; 
-  }
+
   
