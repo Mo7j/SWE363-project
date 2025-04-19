@@ -31,20 +31,20 @@ Install dependencies
 Go to http://localhost:3000, register as a student, and start browsing available roommate requests.
 ###  Team Members 
 👥 Team Members & Roles
-Name	                                  Contribution
-THAMIR ABDULLAH AL ORFI AL JOHANI	      Implemented Signup, Login, Admin Page, Role Selection, 
-                                        and Admin Login
+Name	                                  
+THAMIR ABDULLAH AL ORFI AL JOHANI
+ Implemented Signup, Login, Admin Page, Role Selection, and Admin Login
                                         
-ALGHAMDI, TURKI ABDULLAH	              Developed the Chatting Page
-
-MOHAMMED FAHAD ALAJMI                  	Implemented Website Settings and Profile Settings Page
-
-ABDULRAHMAN AHMED ALTARIQI	            Built the Roommate Request Form and University Redirect 
-                                        Page
-                                        
-MOHAMED NASER HEJAZI                   	Created the Search Request, Homepage, My Requests, and 
-                                        Not Found pages and modify the errors in the main 
-                                        repository
+ALGHAMDI, TURKI ABDULLAH	              
+ Developed the Chatting Page
+MOHAMMED FAHAD ALAJMI                  	
+ Implemented Website Settings and Profile Settings Page
+ABDULRAHMAN AHMED ALTARIQI	           
+ Built the Roommate Request Form and University Redirect 
+ Page                                        
+MOHAMED NASER HEJAZI 
+ Created the Search Request, Homepage, My Requests, and Not Found pages and modify the errors in 
+ the main repository
 
                                         
 
