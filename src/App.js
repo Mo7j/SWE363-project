@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import SearchReuset from "./pages/SearchReuset";
 import MyRequests from "./pages/MyRequest";
 import NotFound from "./pages/NotFound";
+import ProfileSettingsPage from "./pages/ProfileSettingsPage";
+import WebsiteSettings from "./pages/WebsiteSettings";
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
         <Route path="/search-request" element={<SearchReuset />} />
         <Route path="/my-requests" element={<MyRequests />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/settings" element={<ProfileSettingsPage />} />
+        <Route path="/website-settings" element={<WebsiteSettings />} />
       </Routes>
     </div>
     </Router>
