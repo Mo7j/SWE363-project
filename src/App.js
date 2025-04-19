@@ -12,7 +12,7 @@ import RoommateRequestForm from "./pages/RoommateRequestForm";
 import MyRequests from "./pages/MyRequest";
 import ProfileSettingsPage from "./pages/ProfileSettingsPage";
 import WebsiteSettings from "./pages/WebsiteSettings";
-
+import ChattingPage from "./pages/chattingPage";
 import SearchReuset from "./pages/SearchReuset";
 
 function ConditionalNavbar() {
@@ -32,8 +32,8 @@ function App() {
       <div className="content">
       <Routes>
         <Route path="/" element={<RoleSelection />} />
-        <Route path="/log-in" element={<Login />} />
-        <Route path="/sign-up" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/home" element={<Home />} />
@@ -42,6 +42,7 @@ function App() {
         <Route path="/settings" element={<ProfileSettingsPage />} />
         <Route path="/website-settings" element={<WebsiteSettings />} />
         <Route path="/add-request" element={<RoommateRequestForm />} />
+        <Route path="/chatting" element={<ChattingPage />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </div>

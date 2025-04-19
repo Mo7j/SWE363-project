@@ -17,7 +17,7 @@ const Login = ({ setIsAuthenticated }) => {
 
     
 
-    setIsAuthenticated(true);
+    
     localStorage.setItem('isAuthenticated', 'true');
     navigate('/home');
   };
