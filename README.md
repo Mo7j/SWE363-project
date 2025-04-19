@@ -33,18 +33,17 @@ Go to http://localhost:3000, register as a student, and start browsing available
 👥 Team Members & Roles
 Name	                                  
 THAMIR ABDULLAH AL ORFI AL JOHANI
- Implemented Signup, Login, Admin Page, Role Selection, and Admin Login
+ Role "Implemented Signup, Login, Admin Page, Role Selection, and Admin Login"
                                         
 ALGHAMDI, TURKI ABDULLAH	              
- Developed the Chatting Page
+ Role: Developed the Chatting Page"
 MOHAMMED FAHAD ALAJMI                  	
- Implemented Website Settings and Profile Settings Page
+ Role "Implemented Website Settings and Profile Settings Page"
 ABDULRAHMAN AHMED ALTARIQI	           
- Built the Roommate Request Form and University Redirect 
- Page                                        
+ Role "Built the Roommate Request Form and University Redirect 
+ Page"                                        
 MOHAMED NASER HEJAZI 
- Created the Search Request, Homepage, My Requests, and Not Found pages and modify the errors in 
- the main repository
+ Role "Created the Search Request, Homepage, My Requests, and Not Found pages and modify the errors in the main repository"
 
                                         
 
