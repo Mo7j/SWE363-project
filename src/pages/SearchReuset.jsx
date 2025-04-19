@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import '../styels/SearchRequest.css'; 
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
+
+
 
 /* Dummy Data */
 const roommatesData = [
@@ -8,10 +11,10 @@ const roommatesData = [
     name: "Rrof. Mohammed Hijazi",
     email: "s202182750@kfupm.edu.sa",
     major: "ICS",
+    building: "841 - 332",
     age: 22,
     city: "Dhahran",
     smoking: "no",
-    rating: 4,
     details: "Mohammed enjoys programming and outdoor activities."
   },
   {
@@ -19,10 +22,10 @@ const roommatesData = [
     name: "Rrof. Ahmed Al-Sayed",
     email: "s202282750@kfupm.edu.sa",
     major: "Engineering",
+    building: "860 - 231",
     age: 24,
     city: "Alkhobar",
     smoking: "yes",
-    rating: 3,
     details: "Ahmed is a mechanical engineering student interested in robotics."
   },
   {
@@ -30,10 +33,10 @@ const roommatesData = [
     name: "Rrof. Al-Mohammed",
     email: "s202382750@kfupm.edu.sa",
     major: "ICS",
+    building: "827 - 132",
     age: 21,
     city: "Dhahran",
     smoking: "no",
-    rating: 5,
     details: "Al is passionate about AI and machine learning."
   },
 ];
@@ -56,7 +59,7 @@ const SearchRequest = () => {
       (filterPreference ? roommate.smoking === filterPreference : true)
     );
   });
-
+  
   // Function to open the modal and set the selected roommate
   const openModal = (roommate) => {
     setSelectedRoommate(roommate);
@@ -67,6 +70,11 @@ const SearchRequest = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedRoommate(null);
+  };
+
+  const navigate = useNavigate();
+  const handleChatClick = () => {
+    navigate('/chatting');  // Navigate to the chat page
   };
 
   return (
@@ -104,7 +112,7 @@ const SearchRequest = () => {
           className="select"
           onChange={(e) => setFilterPreference(e.target.value)}
         >
-          <option value="">Select Preferences</option>
+          <option value="">Somking</option>
           <option value="no">Non-smoking</option>
           <option value="yes">Smoker</option>
         </select>
@@ -128,6 +136,9 @@ const SearchRequest = () => {
               <button className="details-button" onClick={() => openModal(roommate)}>
                 View Details
               </button>
+              <button className="details-button" onClick={handleChatClick}>
+                Chat
+              </button>
             </div>
           </div>
         ))}
@@ -148,6 +159,7 @@ const SearchRequest = () => {
               <p className='modal-body-p'><strong>Age:</strong> {selectedRoommate.age}</p>
               <p className='modal-body-p'><strong>City:</strong> {selectedRoommate.city}</p>
               <p className='modal-body-p'><strong>Smoking:</strong> {selectedRoommate.smoking}</p>
+              <p className='modal-body-p'><strong>Building:</strong> {selectedRoommate.building}</p>
               <p className='modal-body-p'><strong>Details:</strong> {selectedRoommate.details}</p>
             </div>
             <div className="modal-footer">

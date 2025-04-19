@@ -1,29 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import '../styels/Navbar.css'; // Link to your Navbar styling
+import '../styels/Navbar.css'; 
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to handle menu toggle
-  const menuRef = useRef(null); // Ref for the menu to detect outside clicks
+  const [isMenuOpen, setIsMenuOpen] = useState(false); 
+  const menuRef = useRef(null); 
 
-  // Toggle the menu on hamburger click
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Close the menu when clicking outside
   useEffect(() => {
-    // Close menu when clicking outside the navbar
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsMenuOpen(false);
       }
     };
 
-    // Add event listener
     document.addEventListener('mousedown', handleClickOutside);
 
-    // Cleanup event listener on component unmount
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -32,10 +27,10 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="hamburger-menu" onClick={toggleMenu}>
-        ☰ {/* Hamburger icon */}
+        ☰ 
       </div>
       <ul
-        ref={menuRef} // Attach ref to the menu
+        ref={menuRef} 
         className={`navbar-list ${isMenuOpen ? 'active' : ''}`}
       >
         <li>
@@ -45,17 +40,27 @@ const Navbar = () => {
         </li>
         <li>
           <Link to="/search-request" className="navbar-link" onClick={() => setIsMenuOpen(false)}>
-            Search Request
+            Find roommate
           </Link>
         </li>
         <li>
           <Link to="/add-request" className="navbar-link" onClick={() => setIsMenuOpen(false)}>
-            Add Request
+            Request a roommate
           </Link>
         </li>
         <li>
           <Link to="/my-requests" className="navbar-link" onClick={() => setIsMenuOpen(false)}>
             My Requests
+          </Link>
+        </li>
+        <li>
+          <Link to="/chatting" className="navbar-link" onClick={() => setIsMenuOpen(false)}>
+            Chatting
+          </Link>
+        </li>
+        <li>
+          <Link to="/settings" className="navbar-link" onClick={() => setIsMenuOpen(false)}>
+            Settings
           </Link>
         </li>
       </ul>

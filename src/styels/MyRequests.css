@@ -1,0 +1,90 @@
+/* MyRequests.css */
+
+/* General Container */
+body {
+    background-color: #EFEFEF;
+  }
+  
+  .container {
+    padding: 20px;
+    background-color: #EFEFEF;
+  }
+  
+  /* Section Styling */
+  .section {
+    margin-bottom: 30px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  /* Request List Styling */
+  .request-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .request-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .request-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .request-body {
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+  
+  .request-footer {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+  }
+  
+  .accept-button, .reject-button {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .accept-button {
+    background-color: #34d399;
+    color: white;
+  }
+  
+  .accept-button:hover {
+    background-color: #2a9d8f;
+  }
+  
+  .reject-button {
+    background-color: #f87171;
+    color: white;
+  }
+  
+  .reject-button:hover {
+    background-color: #e11d48;
+  }
+  
+  .request-footer button {
+    font-size: 14px;
+    padding: 10px 20px;
+    border-radius: 8px;
+  }
+  
+  .request-footer button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+  }
+  
