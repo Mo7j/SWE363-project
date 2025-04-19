@@ -22,6 +22,7 @@ function ConditionalNavbar() {
   location.pathname === "/my-requests" ||
   location.pathname === "/settings" ||
   location.pathname === "/website-settings" ||
+  location.pathname === "/chatting" ||
   location.pathname === "/add-request" ? <Navbar /> : null; // Only render Navbar on the Home page
 }
 
