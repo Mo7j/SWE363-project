@@ -24,6 +24,9 @@ import Navbar from "./components/Navbar";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 
+// Language Provider
+import { LanguageProvider } from "./locales/LanguageContext";
+
 function ConditionalNavbar() {
   const location = useLocation();
   const showNavbarPaths = [
@@ -39,92 +42,94 @@ function ConditionalNavbar() {
 
 function App() {
   return (
-    <Router>
-      <ConditionalNavbar />
-      <div className="content">
-        <Routes>
-          {/* Public routes (blocked if already logged in) */}
-          <Route
-            path="/login"
-            element={
-              <PublicRoute>
-                <Login />
-              </PublicRoute>
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <PublicRoute>
-                <Signup />
-              </PublicRoute>
-            }
-          />
-          <Route path="/" element={<Navigate to="/login" />} />
+    <LanguageProvider>
+      <Router>
+        <ConditionalNavbar />
+        <div className="content">
+          <Routes>
+            {/* Public routes */}
+            <Route
+              path="/login"
+              element={
+                <PublicRoute>
+                  <Login />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <PublicRoute>
+                  <Signup />
+                </PublicRoute>
+              }
+            />
+            <Route path="/" element={<Navigate to="/login" />} />
 
-          {/* Protected routes (only accessible if logged in) */}
-          <Route
-            path="/admin"
-            element={
-              <PrivateRoute requiredRole="admin">
-                <AdminPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/search-request"
-            element={
-              <PrivateRoute>
-                <SearchReuset />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/my-requests"
-            element={
-              <PrivateRoute>
-                <MyRequests />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/settings"
-            element={
-              <PrivateRoute>
-                <ProfileSettingsPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/website-settings"
-            element={
-              <PrivateRoute>
-                <WebsiteSettings />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/add-request"
-            element={
-              <PrivateRoute>
-                <RoommateRequestForm />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/chatting"
-            element={
-              <PrivateRoute>
-                <ChattingPage />
-              </PrivateRoute>
-            }
-          />
+            {/* Private routes */}
+            <Route
+              path="/admin"
+              element={
+                <PrivateRoute requiredRole="admin">
+                  <AdminPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/search-request"
+              element={
+                <PrivateRoute>
+                  <SearchReuset />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/my-requests"
+              element={
+                <PrivateRoute>
+                  <MyRequests />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <PrivateRoute>
+                  <ProfileSettingsPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/website-settings"
+              element={
+                <PrivateRoute>
+                  <WebsiteSettings />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/add-request"
+              element={
+                <PrivateRoute>
+                  <RoommateRequestForm />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/chatting"
+              element={
+                <PrivateRoute>
+                  <ChattingPage />
+                </PrivateRoute>
+              }
+            />
 
-          {/* 404 Fallback */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </div>
-    </Router>
+            {/* 404 fallback */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
+      </Router>
+    </LanguageProvider>
   );
 }
 

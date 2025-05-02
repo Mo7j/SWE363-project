@@ -1,70 +1,93 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { signupWithEmailAndPassword } from "../backend/auth"; // ✅ new import
+import { signupWithEmailAndPassword } from "../backend/auth";
 import "../styels/Signup.css";
 
 const Signup = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const nameRegex = /^[a-zA-Z\s-]{2,}$/;
-  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+  const passwordRegex =
+    /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
 
-  const validateField = (field, value) => {
-    const newErrors = { ...errors };
+    const validateField = (field, value = formData[field]) => {
+      const newErrors = { ...errors };
+    
+      if (field === "name" || field === "all") {
+        const val = field === "all" ? formData.name : value;
+        if (!val.trim()) newErrors.name = "Full name is required";
+        else if (!nameRegex.test(val))
+          newErrors.name =
+            "Name must be at least 2 characters and contain only letters, spaces, or hyphens";
+        else delete newErrors.name;
+      }
+    
+      if (field === "email" || field === "all") {
+        const val = field === "all" ? formData.email : value;
+        if (!val.trim()) newErrors.email = "Email is required";
+        else if (!val.endsWith("@kfupm.edu.sa"))
+          newErrors.email = "Email must end with @kfupm.edu.sa";
+        else delete newErrors.email;
+      }
+    
+      if (field === "password" || field === "all") {
+        const val = field === "all" ? formData.password : value;
+        if (!val) newErrors.password = "Password is required";
+        else if (!passwordRegex.test(val))
+          newErrors.password =
+            "Password must be at least 6 characters and include 1 uppercase letter, 1 number, and 1 special character.";
+        else delete newErrors.password;
+      }
+    
+      if (field === "confirmPassword" || field === "all") {
+        const val = field === "all" ? formData.confirmPassword : value;
+        if (!val) newErrors.confirmPassword = "Please confirm your password";
+        else if (val !== formData.password)
+          newErrors.confirmPassword = "Passwords do not match";
+        else delete newErrors.confirmPassword;
+      }
+    
+      setErrors(newErrors);
+      return Object.keys(newErrors).length === 0;
+    };
+    
 
-    if (field === "name" || field === "all") {
-      if (!name) newErrors.name = "Full name is required";
-      else if (!nameRegex.test(name))
-        newErrors.name =
-          "Name must be at least 2 characters and contain only letters, spaces, or hyphens";
-      else delete newErrors.name;
-    }
-
-    if (field === "email" || field === "all") {
-      if (!email) newErrors.email = "Email is required";
-      else if (!emailRegex.test(email))
-        newErrors.email = "Please enter a valid email address";
-      else delete newErrors.email;
-    }
-
-    if (field === "password" || field === "all") {
-      if (!password) newErrors.password = "Password is required";
-      else if (!passwordRegex.test(password))
-        newErrors.password =
-          "Password must be at least 6 characters, including 1 uppercase letter, 1 number, and 1 special character";
-      else delete newErrors.password;
-    }
-
-    if (field === "confirmPassword" || field === "all") {
-      if (!confirmPassword) newErrors.confirmPassword = "Please confirm your password";
-      else if (confirmPassword !== password)
-        newErrors.confirmPassword = "Passwords do not match";
-      else delete newErrors.confirmPassword;
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    validateField(name, value);
   };
 
   const handleRegister = async () => {
     const isValid = validateField("all");
     if (!isValid) return;
-
+  
     try {
-      await signupWithEmailAndPassword({ name, email, password });
+      await signupWithEmailAndPassword({
+        name: formData.name,
+        email: formData.email.trim(),
+        password: formData.password,
+      });
       localStorage.setItem("isAuthenticated", "true");
       navigate("/search-request");
     } catch (error) {
       console.error("Signup error:", error.message);
-      setErrors({ email: "Signup failed. Try a different email." });
+      if (error.code === "auth/email-already-in-use") {
+        setErrors({ email: "This email is already registered." });
+      } else {
+        setErrors({ email: "Signup failed: " + error.message });
+      }
     }
   };
+  
 
   return (
     <div className="signup-container">
@@ -76,29 +99,25 @@ const Signup = () => {
           <input
             type="text"
             id="name"
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-              validateField("name", e.target.value);
-            }}
-            className={`input ${errors.name ? "error" : ""}`}
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
             placeholder="Enter your full name"
+            className={`input ${errors.name ? "error" : ""}`}
           />
           {errors.name && <p className="error-message">{errors.name}</p>}
         </div>
 
         <div className="input-group">
-          <label htmlFor="email">Email Address</label>
+          <label htmlFor="email">KFUPM Email</label>
           <input
             type="email"
             id="email"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              validateField("email", e.target.value);
-            }}
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="s20xxxxxxx@kfupm.edu.sa"
             className={`input ${errors.email ? "error" : ""}`}
-            placeholder="Enter your email"
           />
           {errors.email && <p className="error-message">{errors.email}</p>}
         </div>
@@ -108,14 +127,11 @@ const Signup = () => {
           <input
             type="password"
             id="password"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              validateField("password", e.target.value);
-              validateField("confirmPassword", confirmPassword);
-            }}
-            className={`input ${errors.password ? "error" : ""}`}
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
             placeholder="Create a password"
+            className={`input ${errors.password ? "error" : ""}`}
           />
           {errors.password && <p className="error-message">{errors.password}</p>}
         </div>
@@ -125,15 +141,15 @@ const Signup = () => {
           <input
             type="password"
             id="confirmPassword"
-            value={confirmPassword}
-            onChange={(e) => {
-              setConfirmPassword(e.target.value);
-              validateField("confirmPassword", e.target.value);
-            }}
-            className={`input ${errors.confirmPassword ? "error" : ""}`}
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
             placeholder="Confirm your password"
+            className={`input ${errors.confirmPassword ? "error" : ""}`}
           />
-          {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
+          {errors.confirmPassword && (
+            <p className="error-message">{errors.confirmPassword}</p>
+          )}
         </div>
 
         <button onClick={handleRegister} className="signup-button">

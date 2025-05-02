@@ -1,124 +1,134 @@
-import React, { useState } from 'react';
-import '../styels/MyRequests.css'; 
+import React, { useEffect, useState } from "react";
+import {
+  getReceivedInterests,
+  getSentInterests,
+  updateInterestStatus,
+} from "../backend/interests";
+import { getUserByUid } from "../backend/users";
+import { auth } from "../firebase";
+import { useLanguage } from "../locales/LanguageContext"; // ✅
 
-/* Dummy Data */
-const sentRequests = [
-  {
-    id: 1,
-    name: "Rrof. Mohammed Hijazi",
-    email: "s202182750@kfupm.edu.sa",
-    major: "ICS",
-    age: 22,
-    city: "Dhahran",
-    smoking: "no",
-    status: "pending", // Status of the request (pending, accepted, rejected)
-  },
-  {
-    id: 2,
-    name: "Rrof. Ahmed Al-Sayed",
-    email: "s202282750@kfupm.edu.sa",
-    major: "Engineering",
-    age: 24,
-    city: "Alkhobar",
-    smoking: "yes",
-    status: "accepted", // Example accepted status
-  },
-];
-
-const receivedRequests = [
-  {
-    id: 1,
-    name: "Rrof. Al-Mohammed",
-    email: "s202382750@kfupm.edu.sa",
-    major: "ICS",
-    age: 21,
-    city: "Dhahran",
-    smoking: "no",
-    status: "pending",
-  },
-  {
-    id: 2,
-    name: "Rrof. Sarah Al-Sayed",
-    email: "s202482750@kfupm.edu.sa",
-    major: "Engineering",
-    age: 23,
-    city: "Alkhobar",
-    smoking: "yes",
-    status: "pending",
-  },
-];
+import "../styels/SearchRequest.css";
 
 const MyRequests = () => {
-  const [mySentRequests, setMySentRequests] = useState(sentRequests); // Sent requests state
-  const [myReceivedRequests, setMyReceivedRequests] = useState(receivedRequests); // Received requests state
+  const { t } = useLanguage(); // ✅
+  const [sentUsers, setSentUsers] = useState([]);
+  const [receivedUsers, setReceivedUsers] = useState([]);
 
-  // Handle the accept or reject of a received request
-  const handleRequestStatus = (id, action) => {
-    const updatedRequests = myReceivedRequests.map((request) =>
-      request.id === id ? { ...request, status: action } : request
-    );
-    setMyReceivedRequests(updatedRequests);
+  useEffect(() => {
+    const loadRequests = async () => {
+      const uid = auth.currentUser.uid;
+
+      try {
+        const sent = await getSentInterests(uid);
+        const sentProfiles = await Promise.all(
+          sent.map(async (req) => {
+            const user = await getUserByUid(req.toUid);
+            return user ? { ...user, uid: req.toUid, status: req.status } : null;
+          })
+        );
+        setSentUsers(sentProfiles.filter(Boolean));
+
+        const received = await getReceivedInterests(uid);
+        const receivedProfiles = await Promise.all(
+          received.map(async (req) => {
+            const user = await getUserByUid(req.fromUid);
+            return user
+              ? {
+                  ...user,
+                  uid: req.fromUid,
+                  status: req.status,
+                  docId: req.id,
+                }
+              : null;
+          })
+        );
+        setReceivedUsers(receivedProfiles.filter(Boolean));
+      } catch (err) {
+        console.error("Error loading requests:", err.message);
+      }
+    };
+
+    loadRequests();
+  }, []);
+
+  const handleUpdateStatus = async (docId, newStatus) => {
+    try {
+      await updateInterestStatus(docId, newStatus);
+      setReceivedUsers((prev) =>
+        prev.map((user) =>
+          user.docId === docId ? { ...user, status: newStatus } : user
+        )
+      );
+    } catch (err) {
+      console.error("Failed to update status:", err.message);
+    }
   };
 
   return (
     <div className="container">
-      <div className="section">
-        <h2>My Sent Requests</h2>
-        <div className="request-list">
-          {mySentRequests.map((request) => (
-            <div key={request.id} className="request-card">
-              <div className="request-header">
-                <h3>{request.name}</h3>
-                <p>Status: {request.status}</p>
+      <h2 style={{ marginBottom: "20px" }}>{t("sent_requests_title")}</h2>
+      {sentUsers.length === 0 ? (
+        <p>{t("no_sent_requests")}</p>
+      ) : (
+        <div className="roommate-list">
+          {sentUsers.map((user, index) => (
+            <div key={index} className="roommate-card">
+              <div className="roommate-header">
+                <h3 className="roommate-name">{user.name}</h3>
               </div>
-              <div className="request-body">
-                <p>Email: {request.email}</p>
-                <p>Major: {request.major}</p>
-                <p>Age: {request.age}</p>
-                <p>City: {request.city}</p>
-                <p>Smoking: {request.smoking}</p>
+              <div className="roommate-details">
+                <p>
+                  <strong>{t("email")}:</strong> {user.email}
+                </p>
+                <p>
+                  <strong>{t("status")}:</strong> {user.status || t("pending")}
+                </p>
               </div>
             </div>
           ))}
         </div>
-      </div>
+      )}
 
-      <div className="section">
-        <h2>Requests I Got</h2>
-        <div className="request-list">
-          {myReceivedRequests.map((request) => (
-            <div key={request.id} className="request-card">
-              <div className="request-header">
-                <h3>{request.name}</h3>
-                <p>Status: {request.status}</p>
+      <h2 style={{ margin: "40px 0 20px" }}>{t("received_requests_title")}</h2>
+      {receivedUsers.length === 0 ? (
+        <p>{t("no_received_requests")}</p>
+      ) : (
+        <div className="roommate-list">
+          {receivedUsers.map((user, index) => (
+            <div key={index} className="roommate-card">
+              <div className="roommate-header">
+                <h3 className="roommate-name">{user.name}</h3>
               </div>
-              <div className="request-body">
-                <p>Email: {request.email}</p>
-                <p>Major: {request.major}</p>
-                <p>Age: {request.age}</p>
-                <p>City: {request.city}</p>
-                <p>Smoking: {request.smoking}</p>
+              <div className="roommate-details">
+                <p>
+                  <strong>{t("email")}:</strong> {user.email}
+                </p>
+                <p>
+                  <strong>{t("status")}:</strong> {user.status || t("pending")}
+                </p>
               </div>
-              {request.status === "pending" && (
-                <div className="request-footer">
+              {user.status === "pending" && (
+                <div className="roommate-footer">
                   <button
-                    className="accept-button"
-                    onClick={() => handleRequestStatus(request.id, "accepted")}
+                    className="details-button"
+                    onClick={() => handleUpdateStatus(user.docId, "accepted")}
                   >
-                    Accept
+                    {t("accept")}
                   </button>
                   <button
-                    className="reject-button"
-                    onClick={() => handleRequestStatus(request.id, "rejected")}
+                    className="details-button"
+                    onClick={() => handleUpdateStatus(user.docId, "rejected")}
+                    style={{ marginLeft: "10px", backgroundColor: "#e74c3c" }}
                   >
-                    Reject
+                    {t("reject")}
                   </button>
                 </div>
               )}
             </div>
           ))}
         </div>
-      </div>
+      )}
     </div>
   );
 };

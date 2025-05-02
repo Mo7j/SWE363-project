@@ -1,88 +1,96 @@
-import React, { useState } from 'react';
-import '../styels/SearchRequest.css'; 
-import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
-
-
-
-/* Dummy Data */
-const roommatesData = [
-  {
-    id: 1,
-    name: "Rrof. Mohammed Hijazi",
-    email: "s202182750@kfupm.edu.sa",
-    major: "ICS",
-    building: "841 - 332",
-    age: 22,
-    city: "Dhahran",
-    smoking: "no",
-    details: "Mohammed enjoys programming and outdoor activities."
-  },
-  {
-    id: 2,
-    name: "Rrof. Ahmed Al-Sayed",
-    email: "s202282750@kfupm.edu.sa",
-    major: "Engineering",
-    building: "860 - 231",
-    age: 24,
-    city: "Alkhobar",
-    smoking: "yes",
-    details: "Ahmed is a mechanical engineering student interested in robotics."
-  },
-  {
-    id: 3,
-    name: "Rrof. Al-Mohammed",
-    email: "s202382750@kfupm.edu.sa",
-    major: "ICS",
-    building: "827 - 132",
-    age: 21,
-    city: "Dhahran",
-    smoking: "no",
-    details: "Al is passionate about AI and machine learning."
-  },
-];
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { getAllRequests } from "../backend/requests";
+import { sendRoommateInterest, getSentInterests } from "../backend/interests";
+import { auth } from "../firebase";
+import { useLanguage } from "../locales/LanguageContext";
+import "../styels/SearchRequest.css";
 
 const SearchRequest = () => {
+  const { t } = useLanguage();
+  const [roommatesData, setRoommatesData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCity, setFilterCity] = useState("");
   const [filterMajor, setFilterMajor] = useState("");
   const [filterPreference, setFilterPreference] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false); 
-  const [selectedRoommate, setSelectedRoommate] = useState(null); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedRoommate, setSelectedRoommate] = useState(null);
+  const [requestStatus, setRequestStatus] = useState("");
+  const [sentUids, setSentUids] = useState(new Set());
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getAllRequests();
+        setRoommatesData(data);
+
+        if (auth.currentUser) {
+          const sent = await getSentInterests(auth.currentUser.uid);
+          const uids = sent.map((r) => r.toUid);
+          setSentUids(new Set(uids));
+        }
+      } catch (err) {
+        console.error("Failed to load data:", err.message);
+      }
+    };
+    fetchData();
+  }, []);
 
   const filteredRoommates = roommatesData.filter((roommate) => {
     return (
-      (roommate.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      roommate.major.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      roommate.email.toLowerCase().includes(searchTerm.toLowerCase())) &&
+      auth.currentUser?.uid !== roommate.uid &&
+      (roommate.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        roommate.major?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        roommate.email?.toLowerCase().includes(searchTerm.toLowerCase())) &&
       (filterCity ? roommate.city === filterCity : true) &&
-      (filterMajor ? roommate.email === filterMajor : true) &&
+      (filterMajor ? roommate.major === filterMajor : true) &&
       (filterPreference ? roommate.smoking === filterPreference : true)
     );
   });
-  
-  // Function to open the modal and set the selected roommate
+
   const openModal = (roommate) => {
     setSelectedRoommate(roommate);
     setIsModalOpen(true);
+    setRequestStatus("");
   };
 
-  // Function to close the modal
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedRoommate(null);
+    setRequestStatus("");
   };
 
-  const navigate = useNavigate();
   const handleChatClick = () => {
-    navigate('/chatting');  // Navigate to the chat page
+    navigate("/chatting");
+  };
+
+  const handleSendRequest = async () => {
+    try {
+      if (!auth.currentUser || !selectedRoommate?.uid) {
+        setRequestStatus(t("error_missing_user"));
+        return;
+      }
+
+      await sendRoommateInterest({
+        fromUid: auth.currentUser.uid,
+        toUid: selectedRoommate.uid,
+      });
+
+      setRequestStatus(t("request_sent_success"));
+      setSentUids((prev) => new Set(prev).add(selectedRoommate.uid));
+    } catch (err) {
+      setRequestStatus(`❌ ${err.message}`);
+    }
   };
 
   return (
     <div className="container">
-      <div className="search-bar">
+      <div className="search-bar-div">
         <input
           type="text"
-          placeholder="Search by name or major..."
+          placeholder={t("search_placeholder")}
           className="input"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -90,31 +98,22 @@ const SearchRequest = () => {
       </div>
 
       <div className="filters">
-        <select
-          className="select"
-          onChange={(e) => setFilterCity(e.target.value)}
-        >
-          <option value="">Select City</option>
-          <option value="Dhahran">Dhahran</option>
-          <option value="Alkhobar">Alkhobar</option>
+        <select className="select" onChange={(e) => setFilterCity(e.target.value)}>
+          <option value="">{t("select_city")}</option>
+          <option value="Dhahran">{t("dhahran")}</option>
+          <option value="Alkhobar">{t("alkhobar")}</option>
         </select>
 
-        <select
-          className="select"
-          onChange={(e) => setFilterMajor(e.target.value)}
-        >
-          <option value="">Select Major</option>
+        <select className="select" onChange={(e) => setFilterMajor(e.target.value)}>
+          <option value="">{t("select_major")}</option>
           <option value="ICS">ICS</option>
-          <option value="Engineering">Engineering</option>
+          <option value="Engineering">{t("engineering")}</option>
         </select>
 
-        <select
-          className="select"
-          onChange={(e) => setFilterPreference(e.target.value)}
-        >
-          <option value="">Somking</option>
-          <option value="no">Non-smoking</option>
-          <option value="yes">Smoker</option>
+        <select className="select" onChange={(e) => setFilterPreference(e.target.value)}>
+          <option value="">{t("smoking")}</option>
+          <option value="no">{t("non_smoking")}</option>
+          <option value="yes">{t("smoker")}</option>
         </select>
       </div>
 
@@ -127,43 +126,53 @@ const SearchRequest = () => {
               </div>
             </div>
             <div className="roommate-details">
-              <p className="roommate-details-p">Major: {roommate.major}</p>
-              <p className="roommate-details-p">Email: {roommate.email}</p>
-              <p className="roommate-details-p">City: {roommate.city}</p>
-              <p className="roommate-details-p">Smoking: {roommate.smoking}</p>
+              <p className="roommate-details-p">{t("major")}: {roommate.major}</p>
+              <p className="roommate-details-p">{t("email")}: {roommate.email}</p>
+              <p className="roommate-details-p">{t("city")}: {roommate.city}</p>
+              <p className="roommate-details-p">{t("smoking")}: {roommate.smoking}</p>
             </div>
             <div className="roommate-footer">
               <button className="details-button" onClick={() => openModal(roommate)}>
-                View Details
+                {t("view_details")}
               </button>
               <button className="details-button" onClick={handleChatClick}>
-                Chat
+                {t("chat")}
               </button>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Modal for Showing Roommate Details */}
       {isModalOpen && selectedRoommate && (
         <div className="modal-overlay">
           <div className="modal">
             <div className="modal-header">
-              <h2 className='modal-header-h2'>Roommate Details</h2>
+              <h2 className="modal-header-h2">{t("roommate_details")}</h2>
               <button onClick={closeModal} className="colse-icon">X</button>
             </div>
             <div className="modal-body">
-              <p className='modal-body-p'><strong>Name:</strong> {selectedRoommate.name}</p>
-              <p className='modal-body-p'><strong>Email:</strong> {selectedRoommate.email}</p>
-              <p className='modal-body-p'><strong>Major:</strong> {selectedRoommate.major}</p>
-              <p className='modal-body-p'><strong>Age:</strong> {selectedRoommate.age}</p>
-              <p className='modal-body-p'><strong>City:</strong> {selectedRoommate.city}</p>
-              <p className='modal-body-p'><strong>Smoking:</strong> {selectedRoommate.smoking}</p>
-              <p className='modal-body-p'><strong>Building:</strong> {selectedRoommate.building}</p>
-              <p className='modal-body-p'><strong>Details:</strong> {selectedRoommate.details}</p>
+              <p><strong>{t("name")}:</strong> {selectedRoommate.name}</p>
+              <p><strong>{t("email")}:</strong> {selectedRoommate.email}</p>
+              <p><strong>{t("major")}:</strong> {selectedRoommate.major}</p>
+              <p><strong>{t("age")}:</strong> {selectedRoommate.age}</p>
+              <p><strong>{t("city")}:</strong> {selectedRoommate.city}</p>
+              <p><strong>{t("smoking")}:</strong> {selectedRoommate.smoking}</p>
+              <p><strong>{t("building")}:</strong> {selectedRoommate.building}</p>
+              <p><strong>{t("details")}:</strong> {selectedRoommate.details}</p>
             </div>
             <div className="modal-footer">
-              <button onClick={closeModal} className="close-btn">Send Request</button>
+              <button
+                onClick={handleSendRequest}
+                className="close-btn"
+                disabled={sentUids.has(selectedRoommate.uid)}
+              >
+                {sentUids.has(selectedRoommate.uid) ? t("already_sent") : t("send_request")}
+              </button>
+              {requestStatus && (
+                <p style={{ marginTop: "10px", color: requestStatus.includes("✅") ? "green" : "red" }}>
+                  {requestStatus}
+                </p>
+              )}
             </div>
           </div>
         </div>

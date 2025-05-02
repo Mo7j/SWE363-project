@@ -1,0 +1,20 @@
+/* Light Theme (default) */
+:root {
+    --bg: #EFEFEF;
+    --text: #000000;
+    --card-bg: #FFFFFF;
+    --primary: #167d43;
+    --primary-hover: #269255;
+    --error: #e53e3e;
+  }
+  
+  /* Dark Theme */
+  body.dark-mode {
+    --bg: #121212;
+    --text: #f0f0f0;
+    --card-bg: #1e1e1e;
+    --primary: #4caf50;
+    --primary-hover: #66bb6a;
+    --error: #ff4d4d;
+  }
+  

@@ -1,11 +1,12 @@
-// src/components/LogoutButton.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
+import { useLanguage } from "../locales/LanguageContext";
 
 const LogoutButton = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage(); // ✅
 
   const handleLogout = async () => {
     try {
@@ -19,7 +20,7 @@ const LogoutButton = () => {
 
   return (
     <button onClick={handleLogout} className="logout-button">
-      Log Out
+      {t("logout")}
     </button>
   );
 };

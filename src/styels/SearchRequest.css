@@ -10,7 +10,9 @@
   }
   
   /* Search Bar */
-  .search-bar {
+  .search-bar-div {
+    border: none;
+    padding: 0px;
     margin-bottom: 10px;
   }
 
