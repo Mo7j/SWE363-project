@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../styels/AdminPage.css';
+import LogoutButton from "../components/LogoutButton";
 
 const AdminPage = () => {
   const [students, setStudents] = useState([]);
@@ -47,6 +48,7 @@ const AdminPage = () => {
             ))}
           </ul>
         </div>
+        <LogoutButton />
       </div>
     </div>
   );

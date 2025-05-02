@@ -1,13 +1,13 @@
-// src/pages/Signup.jsx
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import '../styels/Signup.css'
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { signupWithEmailAndPassword } from "../backend/auth"; // ✅ new import
+import "../styels/Signup.css";
 
-const Signup = ({ setIsAuthenticated }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+const Signup = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
@@ -18,57 +18,51 @@ const Signup = ({ setIsAuthenticated }) => {
   const validateField = (field, value) => {
     const newErrors = { ...errors };
 
-    if (field === 'name' || field === 'all') {
-      if (!name) {
-        newErrors.name = 'Full name is required';
-      } else if (!nameRegex.test(name)) {
-        newErrors.name = 'Name must be at least 2 characters and contain only letters, spaces, or hyphens';
-      } else {
-        delete newErrors.name;
-      }
+    if (field === "name" || field === "all") {
+      if (!name) newErrors.name = "Full name is required";
+      else if (!nameRegex.test(name))
+        newErrors.name =
+          "Name must be at least 2 characters and contain only letters, spaces, or hyphens";
+      else delete newErrors.name;
     }
 
-    if (field === 'email' || field === 'all') {
-      if (!email) {
-        newErrors.email = 'Email is required';
-      } else if (!emailRegex.test(email)) {
-        newErrors.email = 'Please enter a valid email address';
-      } else {
-        delete newErrors.email;
-      }
+    if (field === "email" || field === "all") {
+      if (!email) newErrors.email = "Email is required";
+      else if (!emailRegex.test(email))
+        newErrors.email = "Please enter a valid email address";
+      else delete newErrors.email;
     }
 
-    if (field === 'password' || field === 'all') {
-      if (!password) {
-        newErrors.password = 'Password is required';
-      } else if (!passwordRegex.test(password)) {
+    if (field === "password" || field === "all") {
+      if (!password) newErrors.password = "Password is required";
+      else if (!passwordRegex.test(password))
         newErrors.password =
-          'Password must be at least 6 characters, including 1 uppercase letter, 1 number, and 1 special character';
-      } else {
-        delete newErrors.password;
-      }
+          "Password must be at least 6 characters, including 1 uppercase letter, 1 number, and 1 special character";
+      else delete newErrors.password;
     }
 
-    if (field === 'confirmPassword' || field === 'all') {
-      if (!confirmPassword) {
-        newErrors.confirmPassword = 'Please confirm your password';
-      } else if (password && confirmPassword !== password) {
-        newErrors.confirmPassword = 'Passwords do not match';
-      } else {
-        delete newErrors.confirmPassword;
-      }
+    if (field === "confirmPassword" || field === "all") {
+      if (!confirmPassword) newErrors.confirmPassword = "Please confirm your password";
+      else if (confirmPassword !== password)
+        newErrors.confirmPassword = "Passwords do not match";
+      else delete newErrors.confirmPassword;
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleRegister = () => {
-    const isValid = validateField('all');
-    if (isValid) {
-      setIsAuthenticated(true);
-      localStorage.setItem('isAuthenticated', 'true');
-      navigate('/home');
+  const handleRegister = async () => {
+    const isValid = validateField("all");
+    if (!isValid) return;
+
+    try {
+      await signupWithEmailAndPassword({ name, email, password });
+      localStorage.setItem("isAuthenticated", "true");
+      navigate("/search-request");
+    } catch (error) {
+      console.error("Signup error:", error.message);
+      setErrors({ email: "Signup failed. Try a different email." });
     }
   };
 
@@ -85,9 +79,9 @@ const Signup = ({ setIsAuthenticated }) => {
             value={name}
             onChange={(e) => {
               setName(e.target.value);
-              validateField('name', e.target.value);
+              validateField("name", e.target.value);
             }}
-            className={`input ${errors.name ? 'error' : ''}`}
+            className={`input ${errors.name ? "error" : ""}`}
             placeholder="Enter your full name"
           />
           {errors.name && <p className="error-message">{errors.name}</p>}
@@ -101,9 +95,9 @@ const Signup = ({ setIsAuthenticated }) => {
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
-              validateField('email', e.target.value);
+              validateField("email", e.target.value);
             }}
-            className={`input ${errors.email ? 'error' : ''}`}
+            className={`input ${errors.email ? "error" : ""}`}
             placeholder="Enter your email"
           />
           {errors.email && <p className="error-message">{errors.email}</p>}
@@ -117,10 +111,10 @@ const Signup = ({ setIsAuthenticated }) => {
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
-              validateField('password', e.target.value);
-              validateField('confirmPassword', confirmPassword);
+              validateField("password", e.target.value);
+              validateField("confirmPassword", confirmPassword);
             }}
-            className={`input ${errors.password ? 'error' : ''}`}
+            className={`input ${errors.password ? "error" : ""}`}
             placeholder="Create a password"
           />
           {errors.password && <p className="error-message">{errors.password}</p>}
@@ -134,9 +128,9 @@ const Signup = ({ setIsAuthenticated }) => {
             value={confirmPassword}
             onChange={(e) => {
               setConfirmPassword(e.target.value);
-              validateField('confirmPassword', e.target.value);
+              validateField("confirmPassword", e.target.value);
             }}
-            className={`input ${errors.confirmPassword ? 'error' : ''}`}
+            className={`input ${errors.confirmPassword ? "error" : ""}`}
             placeholder="Confirm your password"
           />
           {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
@@ -147,8 +141,7 @@ const Signup = ({ setIsAuthenticated }) => {
         </button>
 
         <p className="login-link">
-          Already have an account?{' '}
-          <Link to="/login">Login</Link>
+          Already have an account? <Link to="/login">Login</Link>
         </p>
       </div>
     </div>

@@ -1,36 +1,38 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import '../styels/Login.css'; 
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { loginWithEmailAndPassword } from "../backend/auth"; // ✅ new import
+import "../styels/Login.css";
 
-const Login = ({ setIsAuthenticated }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const handleLogin = async () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setErrorMessage('Please enter a valid email address');
+      setErrorMessage("Please enter a valid email address");
       return;
     }
 
-    
-
-    
-    localStorage.setItem('isAuthenticated', 'true');
-    navigate('/search-request');
+    try {
+      const { role } = await loginWithEmailAndPassword(email, password);
+      localStorage.setItem("isAuthenticated", "true");
+      navigate(role === "admin" ? "/admin" : "/search-request");
+    } catch (error) {
+      console.error("Login error:", error.message);
+      setErrorMessage("Invalid email or password");
+    }
   };
 
   return (
     <div className="login-container">
       <div className="login-box">
         <h2 className="login-title">Login to Your Account</h2>
-        
+
         <div>
-          <label className="login-label" htmlFor="email">
-            Email Address
-          </label>
+          <label className="login-label" htmlFor="email">Email Address</label>
           <input
             type="email"
             id="email"
@@ -42,9 +44,7 @@ const Login = ({ setIsAuthenticated }) => {
         </div>
 
         <div>
-          <label className="login-label" htmlFor="password">
-            Password
-          </label>
+          <label className="login-label" htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
