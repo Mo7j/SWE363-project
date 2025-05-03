@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import '../styels/AdminPage.css';
 import LogoutButton from "../components/LogoutButton";
 import ManageAccounts from "../components/ManageAccounts";
-import UserActivityReports from "../components/UserActivityReports";
 import PostAnnouncements from "../components/PostAnnouncements";
 import { useNavigate } from 'react-router-dom';
 import { getAllRequests } from "../backend/requests";
@@ -14,6 +13,7 @@ const AdminPage = () => {
   const [requests, setRequests] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+  const [requestSearchTerm, setRequestSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchStudentsAndRequests = async () => {
@@ -39,7 +39,12 @@ const AdminPage = () => {
   const filteredStudents = students.filter((student) =>
     `${student.name} ${student.email} `.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
+  const filteredRequests = requests.filter((req) =>
+    `${req.name} ${req.email} ${req.city} ${req.building}`
+      .toLowerCase()
+      .includes(requestSearchTerm.toLowerCase())
+  );
+  
   return (
     <div className="admin-container">
       <div className="admin-box">
@@ -65,7 +70,15 @@ const AdminPage = () => {
         <div className="admin-section">
           <h2>Student Requests</h2>
           <ul className="admin-list">
-            {requests.map((req) => (
+          <input
+            type="text"
+            placeholder="Search requests by name, email, city, or building"
+            value={requestSearchTerm}
+            onChange={(e) => setRequestSearchTerm(e.target.value)}
+            className="admin-search-input"
+            />
+
+            {filteredRequests.map((req) => (
               <li key={req.id}>
                 <strong>{req.name}</strong> – {req.email} <br />
                 <strong>Major:</strong> {req.major} <br />
