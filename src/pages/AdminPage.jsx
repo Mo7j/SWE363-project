@@ -1,25 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import '../styels/AdminPage.css';
 import LogoutButton from "../components/LogoutButton";
+import ManageAccounts from "../components/ManageAccounts";
+import UserActivityReports from "../components/UserActivityReports";
+import PostAnnouncements from "../components/PostAnnouncements";
+import { useNavigate } from 'react-router-dom';
+import { getAllRequests } from "../backend/requests";
+import { getAllUsers } from "../backend/users"; 
+
 
 const AdminPage = () => {
   const [students, setStudents] = useState([]);
   const [requests, setRequests] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const dummyStudents = [
-      { id: 1, name: 'Thamer Aljohani', email: 'thamer@example.com' },
-      { id: 2, name: 'Imad Abdullah', email: 'imad@example.com' },
-    ];
-
-    const dummyRequests = [
-      { id: 1, title: 'Need roommate in Building 854', description: 'Looking for a quiet unsmoking roommate ' },
-      { id: 2, title: 'Shared apartment in building 855', description: '2-bedroom flat, looking for one more student' },
-    ];
-
-    setStudents(dummyStudents);
-    setRequests(dummyRequests);
+    const fetchStudentsAndRequests = async () => {
+      try {
+        const users = await getAllUsers(); 
+        const formattedStudents = users.map((user) => ({
+          id: user.uid,
+          name: user.name || "No name",
+          email: user.email || "No email",
+        }));
+  
+        const realRequests = await getAllRequests(); 
+  
+        setStudents(formattedStudents);
+        setRequests(realRequests);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+  
+    fetchStudentsAndRequests();
   }, []);
+  const filteredStudents = students.filter((student) =>
+    `${student.name} ${student.email} `.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="admin-container">
@@ -28,10 +47,16 @@ const AdminPage = () => {
 
         <div className="admin-section">
           <h2>All Registered Students</h2>
+          <input
+            type="text"
+            placeholder="Search by name or email"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="admin-search-input" />
           <ul className="admin-list">
-            {students.map((student) => (
+            {filteredStudents.map((student) => (
               <li key={student.id}>
-                <strong>{student.name}</strong> – {student.email}
+                <strong>{student.name}</strong> – {student.email} <ManageAccounts studentId={student.id} isBanned={false} onToggleBan={() => {}} />
               </li>
             ))}
           </ul>
@@ -42,13 +67,23 @@ const AdminPage = () => {
           <ul className="admin-list">
             {requests.map((req) => (
               <li key={req.id}>
-                <strong>{req.title}</strong>
-                <p>{req.description}</p>
+                <strong>{req.name}</strong> – {req.email} <br />
+                <strong>Major:</strong> {req.major} <br />
+                <strong>Age:</strong> {req.age} <br />
+                <strong>City:</strong> {req.city} <br />
+                <strong>Smoking:</strong> {req.smoking} <br />
+                <strong>Building:</strong> {req.building} <br />
+                <strong>Details:</strong> {req.details} <br />
               </li>
             ))}
           </ul>
         </div>
-        <LogoutButton />
+
+        <button className="admin-chat-monitor-button" onClick={() => navigate('/AdminChatMonitor')}>
+          Go to Chat Monitor
+        </button>
+
+        <LogoutButton /> <PostAnnouncements />
       </div>
     </div>
   );

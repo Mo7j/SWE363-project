@@ -1,5 +1,5 @@
 // src/backend/users.js
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 
 // ✅ Get the current user's profile
@@ -8,7 +8,10 @@ export const getUserProfile = async (uid) => {
   const snap = await getDoc(ref);
   return snap.exists() ? snap.data() : null;
 };
-
+export const getAllUsers = async () => {
+  const snapshot = await getDocs(collection(db, "users"));
+  return snapshot.docs.map((doc) => ({ uid: doc.id, ...doc.data() }));
+}
 // ✅ Update the current user's profile
 export const updateUserProfile = async (uid, data) => {
   if (
