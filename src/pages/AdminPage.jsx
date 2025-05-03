@@ -91,11 +91,6 @@ const AdminPage = () => {
             ))}
           </ul>
         </div>
-
-        <button className="admin-chat-monitor-button" onClick={() => navigate('/AdminChatMonitor')}>
-          Go to Chat Monitor
-        </button>
-
         <LogoutButton /> <PostAnnouncements />
       </div>
     </div>

@@ -11,7 +11,6 @@ import {
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import AdminPage from "./pages/AdminPage";
-import AdminChatMonitor from "./pages/AdminChatMonitor";
 import NotFound from "./pages/NotFound";
 import RoommateRequestForm from "./pages/RoommateRequestForm";
 import MyRequests from "./pages/MyRequest";
@@ -73,14 +72,6 @@ function App() {
               element={
                 <PrivateRoute requiredRole="admin">
                   <AdminPage />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/AdminChatMonitor"
-              element={
-                <PrivateRoute requiredRole="admin">
-                  <AdminChatMonitor />
                 </PrivateRoute>
               }
             />
