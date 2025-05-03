@@ -64,6 +64,14 @@ The back-end of this project is powered by Firebase services, including:
 
 
 
+## API Documentation
+| Endpoint              | Method | Description                    | Request Body                  | Response                      |
+| --------------------- | ------ | ------------------------------ | ----------------------------- | ----------------------------- |
+| `/api/users/register` | POST   | Register a new user            | `{ email, password, ... }`    | `201 Created` / `400 Error`   |
+| `/api/users/login`    | POST   | Login existing user            | `{ email, password }`         | `200 OK` / `401 Unauthorized` |
+| `/api/requests/`      | GET    | Get all roommate requests      | None                          | `200 OK`                      |
+| `/api/requests/`      | POST   | Create a new roommate request  | `{ title, description, ... }` | `201 Created`                 |
+| `/api/interests/:id`  | POST   | Express interest in a roommate | `{ userId, message }`         | `200 OK`                      |
 
 
 ## 👥 Team Members & Roles
