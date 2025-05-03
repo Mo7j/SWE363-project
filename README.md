@@ -10,27 +10,39 @@ This solution benefits both students and the university by making the roommate a
 ## Setup & Installation
 
 ### Prerequisites
+- Node.js 
+- npm 
 
 Install dependencies
-- npm install 
-- Node.js 
-- npm  
-- 
+- npm install
+- npm install firebase 
+- npm install web-vitals
+ 
+
 
 ### Steps
 
 1. **Clone the repository**
-   ```bash
    git clone https://github.com/Mo7j/SWE363-project.git
+   cd SWE363-project
+2. **Set up environment variables**
+   -Create a .env file in the project root and add the following:
+   REACT_APP_FIREBASE_API_KEY=AIzaSyA0extQQvS3O7k1gKV_FpyY4zSvN4ked5I
+REACT_APP_FIREBASE_AUTH_DOMAIN=kfupm-roommate.firebaseapp.com
+REACT_APP_FIREBASE_PROJECT_ID=kfupm-roommate
+REACT_APP_FIREBASE_STORAGE_BUCKET=kfupm-roommate.firebasestorage.app
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=827965945048
+REACT_APP_FIREBASE_APP_ID=1:827965945048:web:4fa4ae972a3bf66a5e53
+
 ## 📦 Usage Instructions & Examples
 
 1. **Sign up or log in as a user**
    - You can use any email and password to create an account.
 
 2. **Sign in as Admin**
-   - Use the following credentials:
-     - **ID**: `thamer`
-     - **Password**: `thamer`
+   - Use the following credentials: the admin use 
+     - **ID**: `s2000@kfupm.edu.sa`
+     - **Password**: `Mohammed2@`
 
 3. **Browse roommate requests**
    - View all the available roommate listings posted by other students.
@@ -45,15 +57,24 @@ Install dependencies
    - Visit: [http://localhost:3000](http://localhost:3000)
    - Register as a student and start browsing available roommate requests.
    - Sign in as an admin or student
+## Back-End Overview
+The back-end of this project is powered by Firebase services, including:
+   -Firebase Authentication for user login 
+   -Cloud Firestore for storing roommate requests and user data
+
+
+
 
 
 ## 👥 Team Members & Roles
 
-- **THAMIR ABDULLAH AL ORFI AL JOHANI** — Implemented Signup, Login, Admin Page, Role Selection, and Admin Login
+- **THAMIR ABDULLAH AL ORFI AL JOHANI** — Implemented Signup, Login, Admin Page, Role Selection, and Admin Login , and deployed the web application
 - **ALGHAMDI, TURKI ABDULLAH** — Developed the Chatting Page
-- **MOHAMMED FAHAD ALAJMI** — Implemented Website Settings and Profile Settings Page
+- **MOHAMMED FAHAD ALAJMI** — Implemented Website Settings and Profile Settings Page, filtering criteria,manage user accounts , post system announcements , monitor chat interactions
+
+
 - **ABDULRAHMAN AHMED ALTARIQI** — Built the Roommate Request Form and University Redirect Page
-- **MOHAMED NASER HEJAZI** — Created the Search Request, My Requests, and Not Found pages, and modified errors in the main repository
+- **MOHAMED NASER HEJAZI** — Created the Search Request, My Requests, and Not Found pages, and modified errors in the main repository, designed the database on Firebase, implemented the functionality to add user inputs to the Firestore database.
 
                                         
 
